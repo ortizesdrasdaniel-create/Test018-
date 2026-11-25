@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lótus azul</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,300&display=swap">
+<style>
+:root{
+  color-scheme: dark;
+  --abyss:#010514; --navy:#041238; --deep:#0a2a8a; --neon:#1e6bff; --cyan:#35f0ff;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--abyss)}
+body{
+  background:
+    radial-gradient(120% 80% at 50% 62%, #072067 0%, var(--navy) 38%, var(--abyss) 80%);
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+#hint{
+  position:absolute;left:0;right:0;bottom:calc(6vh + env(safe-area-inset-bottom,0px));
+  text-align:center;
+  font:italic 300 clamp(18px,3.4vw,26px)/1.3 "Cormorant Garamond",Georgia,serif;
+  color:#9fe9ff;letter-spacing:.04em;
+  text-shadow:0 0 14px rgba(53,240,255,.7);
+  transition:opacity 1.2s ease;
+  animation:breathe 3.6s ease-in-out infinite;
+}
+#hint.off{opacity:0;animation:none}
+@keyframes breathe{0%,100%{opacity:.45}50%{opacity:1}}
+.ring{fill:none;stroke:#35f0ff;stroke-width:1.4;transform-origin:400px 640px;animation:ring 6s ease-out infinite;opacity:0}
+.ring:nth-of-type(2){animation-delay:2s}.ring:nth-of-type(3){animation-delay:4s}
+@keyframes ring{0%{transform:scale(.2);opacity:.7}100%{transform:scale(1.6);opacity:0}}
+.fly{animation:fly linear infinite}
+@keyframes fly{0%{transform:translateY(0);opacity:0}15%{opacity:1}100%{transform:translateY(-520px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.ring,.fly,#hint{animation:none}}
+</style>
+</head>
+<body tabindex="0" aria-label="Lótus azul. Toque em qualquer lugar para abrir.">
+<svg viewBox="0 0 800 900" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+  <defs>
+    <linearGradient id="gOut" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="-270">
+      <stop offset="0" stop-color="#071a6b"/><stop offset=".55" stop-color="#1650f0"/><stop offset="1" stop-color="#ff3fd0"/>
+    </linearGradient>
+    <linearGradient id="gIn" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="-270">
+      <stop offset="0" stop-color="#1238c8"/><stop offset=".6" stop-color="#3a8bff"/><stop offset="1" stop-color="#b8fbff"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="400" cy="520" r="380" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1e6bff" stop-opacity=".65"/><stop offset=".5" stop-color="#0a2a8a" stop-opacity=".25"/><stop offset="1" stop-color="#010514" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="core" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#9ff7ff"/><stop offset="1" stop-color="#35f0ff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a2a8a" stop-opacity=".55"/><stop offset="1" stop-color="#010514" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="fade" gradientUnits="userSpaceOnUse" x1="0" y1="600" x2="0" y2="820">
+      <stop offset="0" stop-color="#fff" stop-opacity=".4"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <mask id="reflMask"><rect x="0" y="600" width="800" height="300" fill="url(#fade)"/></mask>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="3"/></filter>
+    <path id="petal" d="M0,0 C-55,-30 -64,-150 0,-270 C64,-150 55,-30 0,0Z"/>
+  </defs>
+
+  <circle id="halo" cx="400" cy="520" r="380" fill="url(#halo)" opacity="0"/>
+
+  <!-- água -->
+  <rect x="0" y="600" width="800" height="300" fill="url(#water)"/>
+  <line x1="40" y1="600" x2="760" y2="600" stroke="#35f0ff" stroke-opacity=".35" stroke-width="1"/>
+  <g transform="translate(0,0)">
+    <ellipse class="ring" cx="400" cy="640" rx="260" ry="26"/>
+    <ellipse class="ring" cx="400" cy="640" rx="260" ry="26"/>
+    <ellipse class="ring" cx="400" cy="640" rx="260" ry="26"/>
+  </g>
+
+  <!-- reflexo -->
+  <g mask="url(#reflMask)" opacity=".9">
+    <use href="#flower" transform="translate(0,1200) scale(1,-1)" filter="url(#soft)"/>
+  </g>
+
+  <g id="flower" filter="url(#glow)"></g>
+  <circle id="coreGlow" cx="400" cy="585" r="46" fill="url(#core)" opacity="0"/>
+  <g id="sparks"></g>
+</svg>
+<div id="hint">Toque em qualquer lugar</div>
+
+<script>
+(function(){
+  var NS="http://www.w3.org/2000/svg", DURATION=30000;
+  var flower=document.getElementById("flower"),
+      halo=document.getElementById("halo"),
+      core=document.getElementById("coreGlow"),
+      sparks=document.getElementById("sparks"),
+      hint=document.getElementById("hint");
+
+  // camadas de pétalas: de fora (atrás) para dentro (à frente)
+  var layers=[
+    {n:9,max:84,len:1.00,w:1.10,delay:0.00,g:"gOut",op:.80},
+    {n:8,max:66,len:.95,w:1.00,delay:0.10,g:"gOut",op:.82},
+    {n:7,max:48,len:.86,w:.95,delay:0.22,g:"gIn",op:.84},
+    {n:6,max:31,len:.72,w:.90,delay:0.36,g:"gIn",op:.88},
+    {n:5,max:15,len:.52,w:.85,delay:0.50,g:"gIn",op:.92}
+  ];
+  var petals=[];
+  layers.forEach(function(L){
+    for(var i=0;i<L.n;i++){
+      var a=L.max*(2*i/(L.n-1)-1);
+      var g=document.createElementNS(NS,"g");
+      var u=document.createElementNS(NS,"use");
+      u.setAttribute("href","#petal");
+      u.setAttribute("fill","url(#"+L.g+")");
+      u.setAttribute("fill-opacity",L.op);
+      u.setAttribute("stroke","#6ff4ff");
+      u.setAttribute("stroke-opacity",".65");
+      u.setAttribute("stroke-width","1.3");
+      g.appendChild(u);
+      var v=document.createElementNS(NS,"path");
+      v.setAttribute("d","M0,-10 Q0,-120 0,-235");
+      v.setAttribute("stroke","#d9fdff");v.setAttribute("stroke-opacity",".35");
+      v.setAttribute("stroke-width","1");v.setAttribute("fill","none");
+      g.appendChild(v);
+      flower.appendChild(g);
+      petals.push({g:g,a:a,L:L});
+    }
+  });
+
+  function clamp(x){return x<0?0:x>1?1:x}
+  function ease(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2}
+
+  function render(p){
+    petals.forEach(function(o){
+      var L=o.L, lp=ease(clamp((p-L.delay)/(1-L.delay)));
+      var ang=o.a*(0.08+0.92*lp);
+      var sx=L.w*(0.62+0.38*lp);
+      var sy=L.len*(0.9+0.1*lp);
+      o.g.setAttribute("transform","translate(400,600) rotate("+ang.toFixed(2)+") scale("+sx.toFixed(3)+","+sy.toFixed(3)+")");
+    });
+    var s=.88+.12*ease(p);
+    flower.setAttribute("transform","translate(400,600) scale("+s.toFixed(3)+") translate(-400,-600)");
+    halo.setAttribute("opacity",(.15+.85*ease(p)).toFixed(3));
+    core.setAttribute("opacity",ease(clamp((p-.55)/.45)).toFixed(3));
+    sparks.setAttribute("opacity",(.2+.8*ease(p)).toFixed(3));
+  }
+
+  // vagalumes azuis
+  for(var i=0;i<38;i++){
+    var c=document.createElementNS(NS,"circle");
+    var r=1+Math.random()*2.4;
+    c.setAttribute("cx",(60+Math.random()*680).toFixed(0));
+    c.setAttribute("cy",(500+Math.random()*340).toFixed(0));
+    c.setAttribute("r",r.toFixed(1));
+    c.setAttribute("fill",Math.random()>.5?"#35f0ff":"#6aa4ff");
+    c.setAttribute("class","fly");
+    c.style.animationDuration=(9+Math.random()*10).toFixed(1)+"s";
+    c.style.animationDelay=(-Math.random()*18).toFixed(1)+"s";
+    sparks.appendChild(c);
+  }
+
+  var p=0, dir=0, last=0, raf=0;
+  function frame(t){
+    var dt=last?t-last:16; last=t;
+    p=clamp(p+dir*dt/DURATION);
+    render(p);
+    if((dir>0&&p>=1)||(dir<0&&p<=0)){
+      dir=0;last=0;
+      hint.textContent=p>=1?"Toque para fechar":"Toque em qualquer lugar";
+      hint.className="";
+      if(p>=1){setTimeout(function(){if(dir===0&&p>=1)hint.className="off"},2500)}
+      return;
+    }
+    raf=requestAnimationFrame(frame);
+  }
+  function toggle(){
+    dir=(dir>0||(dir===0&&p>=1))?-1:1;
+    hint.className="off";
+    last=0;cancelAnimationFrame(raf);raf=requestAnimationFrame(frame);
+  }
+  document.addEventListener("click",toggle);
+  document.addEventListener("keydown",function(e){
+    if(e.key==="Enter"||e.key===" "){e.preventDefault();toggle()}
+  });
+  render(0);
+})();
+</script>
+</body>
+</html>
